@@ -6,8 +6,7 @@ This repository contains the code implementation of <em>Decoupled Graph Neural A
 
 <ol>
   <li><strong>default setting</strong></li>
-  <code>
-                                               
+  <code>                                           
   python search-test.py  
   </code>
  </ol>

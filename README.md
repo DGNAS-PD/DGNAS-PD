@@ -5,7 +5,7 @@ This repository contains the code implementation of <em>Decoupled Graph Neural A
 ## <font size=36>Running the Experiment</font>
 
 <ol>
-  <li><strong>default setting</strong></li>
+  <li><strong></strong></li>
   <code>python search-test.py                                 </code>
  </ol>
 </font>

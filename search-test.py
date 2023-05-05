@@ -24,7 +24,7 @@ warnings.filterwarnings('ignore')
 parser = argparse.ArgumentParser("new-data")
 parser.add_argument('--seed', type=int, default=2, help='random seed')
 parser.add_argument('--gpu', type=int, default=1, help='gpu device id')
-parser.add_argument('--data', default='wisconsin',help='six new datasets')
+parser.add_argument('--data', default='blogcatalog',help='six new datasets')
 parser.add_argument('--hiddim', type=int, default=256, help='hidden dims')
 parser.add_argument('--fdrop', type=float, default=0.5, help='drop for pubmed feature')
 parser.add_argument('--drop', type=float, default=0.8, help='drop for pubmed layers')
@@ -34,7 +34,7 @@ parser.add_argument('--epochs', type=int, default=200, help='num of training epo
 # 该参数是用于在验证集上取最优的evals个体求平均
 parser.add_argument('--evals', type=int, default=10, help='num of evals')
 parser.add_argument('--startLength', type=int, default=4, help='num of startArch')
-parser.add_argument('--flag', type=int, default=0, help='determine which kind of dataset')
+parser.add_argument('--flag', type=int, default=1, help='determine which kind of dataset')
 args = parser.parse_args()
 
 # #取出对应数据集名字和数据集划分数据

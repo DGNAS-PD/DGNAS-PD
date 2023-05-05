@@ -34,18 +34,16 @@ parser.add_argument('--epochs', type=int, default=200, help='num of training epo
 # 该参数是用于在验证集上取最优的evals个体求平均
 parser.add_argument('--evals', type=int, default=10, help='num of evals')
 parser.add_argument('--startLength', type=int, default=4, help='num of startArch')
+parser.add_argument('--flag', type=int, default=1, help='determine which kind of dataset')
 args = parser.parse_args()
 
-
-#原来的三个小数据集
-#取出对应数据集名字和数据集划分数据
-datastr=args.dataset
-splitstr=splitstr = '../splits/'+args.dataset+'_split_0.6_0.2_'+str(1)+'.npz'
-
-adj, features, labels, idx_train, idx_val, idx_test = load_new_data(datastr, splitstr)
-
-#新增的三个大数据集，airport/blogcatalog/flickr
-# adj, features, labels, idx_train, idx_val, idx_test = load_big_data(args.dataset)
+# #取出对应数据集名字和数据集划分数据
+datastr=args.data
+if args.flag == 0:
+    splitstr=splitstr = './splits/'+args.data+'_split_0.6_0.2_'+str(1)+'.npz'
+    adj, features, labels, idx_train, idx_val, idx_test = load_new_data(datastr, splitstr)
+else:
+    adj, features, labels, idx_train, idx_val, idx_test = load_big_data(args.data)
 
 
 adj_nor = aug_normalized_adjacency(adj)
@@ -58,11 +56,6 @@ features = features.cuda()
 labels = labels.cuda()
 data = adj_nor, adj_com, adj_sing, features, labels
 
-# adj = aug_normalized_adjacency(adj)
-# adj = sparse_mx_to_torch_sparse_tensor(adj).float().cuda()
-# features = features.cuda()
-# labels = labels.cuda()
-# data = adj, features, labels
 
 idx_train = idx_train.cuda()
 idx_val = idx_val.cuda()
@@ -70,19 +63,8 @@ idx_test = idx_test.cuda()
 index = idx_train, idx_val, idx_test
 
 
-best_arch = [2, 3, 4, 2, 4, 3, 2, 2, 2, 2, 4]
-class Model(object):
-    """A class representing a model."""
-
-    def __init__(self):
-        self.arch = None
-        self.val_acc = None
-        self.test_acc = None
-
-    def __str__(self):
-        """Prints a readable version of this bitstring."""
-        return self.arch
-
+#输入最优DGNN结构
+best_arch = [4, 4, 4, 4, 3]
 
 
 

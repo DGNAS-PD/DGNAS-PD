@@ -8,5 +8,5 @@ This repository contains the code implementation of <em>Decoupled Graph Neural A
 <code>python search-test.py                                      </code>
 
 <b><font size=24>2.test the accuracy of optimal DGNN Architecture </font></b>  
-<code>python run-best.py                                         </code>
+<code>python run—best.py                                         </code>
  

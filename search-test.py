@@ -159,22 +159,5 @@ print("最优结构是:")
 print(best_arch)
 
 
-#进行10轮10次的重复训练获得最优的均值和方差
-avg_list = []
-var_list = []
-for i in range(10):
-    temp_val = np.zeros(10)
-    for j in range(10):
-        val_acc, test_acc= train_and_eval_change_new(args, best_arch, data, index)
-        temp_val[j] = test_acc*100
-    print("the %d iterations' test_acc is %f±%f" %(i, np.mean(temp_val), np.var(temp_val)))
-    avg_list.append(np.mean(temp_val))
-    var_list.append(np.var(temp_val))
 
-nlist = np.array(avg_list)
-idx = np.argmax(nlist)
-
-
-print("-------------------------------------------------")
-print("the result is %f±%f" % (avg_list[idx], var_list[idx]))
 

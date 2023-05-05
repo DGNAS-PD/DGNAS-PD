@@ -24,7 +24,7 @@ warnings.filterwarnings('ignore')
 parser = argparse.ArgumentParser("new-data")
 parser.add_argument('--seed', type=int, default=2, help='random seed')
 parser.add_argument('--gpu', type=int, default=1, help='gpu device id')
-parser.add_argument('--dataset', default='cornell',help='six new datasets')
+parser.add_argument('--dataset', default='blogcatalog',help='six new datasets')
 parser.add_argument('--hiddim', type=int, default=256, help='hidden dims')
 parser.add_argument('--fdrop', type=float, default=0.5, help='drop for pubmed feature')
 parser.add_argument('--drop', type=float, default=0.8, help='drop for pubmed layers')
@@ -84,56 +84,23 @@ class Model(object):
         return self.arch
 
 
-def main(cycles):
-    if not torch.cuda.is_available():
-        print('no gpu device available')
-        sys.exit(1)
-
-    """Algorithm for regularized evolution (i.e. aging evolution)."""
-    # 设置一个双端队列方便pop掉最老的个体
-
-    history = []
-
-    # 就是迭代轮数，一轮迭代会插入一个新子代并且删去一个最老的个体
-    while len(history) < cycles:
-        # Sample randomly chosen models from the current population.
 
 
-        # Create the child model and store it.
-        child = Model()
-        #随意设置一个长度
+#进行10轮10次的重复训练获得最优的均值和方差
+avg_list = []
+var_list = []
+for i in range(10):
+    temp_val = np.zeros(10)
+    for j in range(10):
+        val_acc, test_acc= train_and_eval_change_new(args, best_arch, data, index)
+        temp_val[j] = test_acc*100
+    print("the %d iterations' test_acc is %f±%f" %(i, np.mean(temp_val), np.var(temp_val)))
+    avg_list.append(np.mean(temp_val))
+    var_list.append(np.var(temp_val))
 
-        child.arch = best_arch
-        child.val_acc, child.test_acc = train_and_eval_change_new(args, child.arch, data, index)
-        history.append(child)
-        print(child.arch)
-        print("the %d iteration's res{val_acc:%f   test_acc:%f}" % (
-        len(history), child.val_acc, child.test_acc))
+nlist = np.array(avg_list)
+idx = np.argmax(nlist)
 
-
-
-    return history
-
-
-iteration=1
-for it in range(iteration):
-    # store the search history
-    print("-----------round begin-----------")
-    h = main(20)
-    acc=[]
-    d={}
-    res = 0
-    for i in range(len(h)):
-        if res < h[i].test_acc:
-            idx = i
-            res = h[i].test_acc
-        acc.append(h[i].test_acc*100)
-    accs = acc
-
-    # print('the best test_acc is %f' % (res))
-    # print('the best acc in %d interation' % (idx))
-    # print(h[idx].arch)
 
 print("-------------------------------------------------")
-print(max(accs))
-print("the result is %f±%f"%(np.mean(accs),np.var(accs)))
+print("the result is %f±%f" % (avg_list[idx], var_list[idx]))

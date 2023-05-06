@@ -63,8 +63,20 @@ idx_test = idx_test.cuda()
 index = idx_train, idx_val, idx_test
 
 
-#输入最优DGNN结构
+#cornell最优DGNN结构
+# best_arch = [2, 0]
+
+#texas最优DGNN结构
+# best_arch = [4]
+
+#Wisconsin最优DGNN结构
+# best_arch = [4, 4, 0, 3, 3, 0, 2, 0, 4, 0]
+
+#blogcatalog最优DGNN结构
 best_arch = [4, 4, 4, 4, 3]
+
+#flickr最优DGNN结构
+# best_arch = [4, 2, 4, 3, 3, 4, 2, 4, 2, 2, 3]
 
 
 
